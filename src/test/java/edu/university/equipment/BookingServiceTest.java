@@ -31,9 +31,27 @@ class BookingServiceTest {
     }
 
     @Test
-    void blankBorrowerRejected() {
+    void nullBorrowerRejected() {
         assertThrows(IllegalArgumentException.class,
-                () -> service.create(" ", "LAPTOP01", 1));
+                () -> service.create(null, "LAPTOP01", 1));
+    
+        assertEquals(10, service.getEquipment("LAPTOP01").getAvailableQuantity());
+    }
+    
+    @Test
+    void emptyBorrowerRejected() {
+        assertThrows(IllegalArgumentException.class,
+                () -> service.create("", "LAPTOP01", 1));
+    
+        assertEquals(10, service.getEquipment("LAPTOP01").getAvailableQuantity());
+    }
+    
+    @Test
+    void whitespaceOnlyBorrowerRejected() {
+        assertThrows(IllegalArgumentException.class,
+                () -> service.create("   ", "LAPTOP01", 1));
+    
+        assertEquals(10, service.getEquipment("LAPTOP01").getAvailableQuantity());
     }
 
     @Test
